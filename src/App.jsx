@@ -1,14 +1,10 @@
-import Greeting from "./components/Greeting";
-import UserStatus from "./components/UserStatus";
-import Weather from "./components/Weather";
+import Default from "./components/Default";
 
 const App = () => {
   return (
-    <>
-      <Weather />
-      <UserStatus isAdmin={true} isLoggedIn={true} />
-      <Greeting />
-    </>
+    <div className="dark-mode min-h-dvh p-6">
+      <Default />
+    </div>
   );
 };
 
