@@ -4,7 +4,7 @@ import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
 import ODMB from "./components/ODMB";
-import { updateSearchCount } from "./appwrite.js";
+import { getTrendingMovies, updateSearchCount } from "./appwrite.js";
 
 const API_BASE_URL = "https://movie-database-api1.p.rapidapi.com";
 const OMDB_API_BASE_URL = "https://www.omdbapi.com";
@@ -22,12 +22,15 @@ const API_OPTIONS = {
 };
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [movieList, setMovieList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [apiSource, setApiSource] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [movieList, setMovieList] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
   // Imporved the Search function using debounce npm
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
@@ -114,9 +117,23 @@ const App = () => {
     }
   };
 
+  const loadTrendingMovies = async () => {
+    try {
+      const movies = await getTrendingMovies();
+
+      setTrendingMovies(movies);
+    } catch (error) {
+      console.error(`Error fetching trending Movies: ${error}`);
+    }
+  };
+
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    loadTrendingMovies();
+  }, []);
 
   return (
     <main>
@@ -131,8 +148,22 @@ const App = () => {
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
 
+          {trendingMovies.length > 0 && (
+            <section className="trending">
+              <h2>Trending Movies</h2>
+
+              <ul>
+                {trendingMovies.map((movie, index) => (
+                  <li key={movie.$id}>
+                    <p>{index + 1}</p>
+                    <img src={movie.poster_url} alt={movie.title} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <section className="all-movies">
-            <h2 className="mt-[40px]">All Movies</h2>
+            <h2 className="">All Movies</h2>
             {isLoading ? (
               <Spinner />
             ) : errorMessage ? (
