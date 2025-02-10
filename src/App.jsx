@@ -54,7 +54,9 @@ const App = () => {
         const movieData = data.data;
 
         if (!movieData || !movieData.movies) {
-          setErrorMessage("No movies found.");
+          setErrorMessage(
+            "We couldn't find any movies at the moment. Please try a different search."
+          );
           setMovieList([]);
           return;
         }
@@ -73,7 +75,9 @@ const App = () => {
         const data = await response.json();
         const movieData = data.Search;
         if (!data || !data.Search) {
-          setErrorMessage("No movies found.");
+          setErrorMessage(
+            "No movies found matching your search. Try different keywords or check the spelling."
+          );
           setMovieList([]);
           return;
         }
@@ -105,13 +109,15 @@ const App = () => {
         } catch (detailError) {
           console.error("Error fetching movie details: ", detailError);
           setErrorMessage(
-            "Error fetching movie details. Please try again later."
+            "We're having trouble getting movie details right now. Please try again in a moment."
           );
         }
       }
     } catch (error) {
       console.error("Error fetching movies: ", error);
-      setErrorMessage("Error fetching movies. Please try again later.");
+      setErrorMessage(
+        "Oops! Something went wrong. Please check your connection and try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -142,15 +148,18 @@ const App = () => {
           <header>
             <h1>
               <img src="./hero.png" alt="Hero Banner" />
-              Find <span className="text-gradient">Movies</span> You&apos;ll
-              Enjoy without the husttle
+              Find The Perfect <span className="text-gradient">Movies</span> for
+              Any Mood
             </h1>
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
 
           {trendingMovies.length > 0 && (
             <section className="trending">
-              <h2>Trending Movies</h2>
+              <h2>Popular Right Now</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                See what everyone&apos;s watching
+              </p>
 
               <ul>
                 {trendingMovies.map((movie, index) => (
@@ -163,7 +172,14 @@ const App = () => {
             </section>
           )}
           <section className="all-movies">
-            <h2 className="">All Movies</h2>
+            <h2>
+              {debouncedSearchTerm ? "Search Results" : "Featured Movies"}
+              {debouncedSearchTerm && (
+                <p className="text-sm text-gray-600 mb-4">
+                  Showing results for {debouncedSearchTerm}
+                </p>
+              )}
+            </h2>
             {isLoading ? (
               <Spinner />
             ) : errorMessage ? (
