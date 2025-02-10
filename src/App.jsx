@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
+import MovieCard from "./components/MovieCard";
 
 const API_BASE_URL = "https://movie-database-api1.p.rapidapi.com";
 
@@ -24,7 +25,7 @@ const App = () => {
     setIsloading(true);
     setErrorMessage("");
     try {
-      const endpoint = `${API_BASE_URL}/list_movies.json?limit=20&sort_by=like_count&order_by=desc`;
+      const endpoint = `${API_BASE_URL}/list_movies.json?limit=20&sort_by=like_count&order_by=desc&with_rt_ratings=true`;
 
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -41,6 +42,7 @@ const App = () => {
         return;
       }
 
+      console.log(movieData);
       setMovieList(movieData.movies || []);
     } catch (e) {
       console.error("Error fetching movies: ", e);
@@ -76,9 +78,7 @@ const App = () => {
             ) : (
               <ul>
                 {movieList.map((movie) => (
-                  <p className="text-white" key={movie.id}>
-                    {movie.title}
-                  </p>
+                  <MovieCard key={movie.id} movie={movie} />
                 ))}
               </ul>
             )}
