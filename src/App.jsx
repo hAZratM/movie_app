@@ -157,7 +157,7 @@ const App = () => {
           {trendingMovies.length > 0 && (
             <section className="trending">
               <h2>Popular Right Now</h2>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mb-2 sm:mb-3 md:mb-4">
                 See what everyone&apos;s watching
               </p>
 
@@ -175,7 +175,7 @@ const App = () => {
             <h2>
               {debouncedSearchTerm ? "Search Results" : "Featured Movies"}
               {debouncedSearchTerm && (
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mb-2 sm:mb-3 md:mb-4">
                   Showing results for {debouncedSearchTerm}
                 </p>
               )}
