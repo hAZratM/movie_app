@@ -93,12 +93,12 @@ A modern web app for discovering movies, built with [React](https://reactjs.org/
 
 ---
 
-## Contributing
+## Credits
 
-Contributions are welcome! Open an [issue](https://github.com/hAZratM/movie_app/issues) or submit a pull request.
+Thanks to [JavaScript Mastery](https://resource.jsmastery.pro/react-movie-app) for the Figma design.
 
 ---
 
-<div align="center">
-  <p>Developed by <a href="https://github.com/hAZratM">HAZRAT</a></p>
-</div>
+## Contributing
+
+Contributions are welcome! Open an [issue](https://github.com/hAZratM/movie_app/issues) or submit a pull request.
